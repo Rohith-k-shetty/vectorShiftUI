@@ -1,6 +1,6 @@
 import { BaseNode } from "./BaseNode";
 import { Position } from "reactflow";
-
+import OutputIcon from "@mui/icons-material/Output";
 export const OutputNode = ({ id, data }) => {
   const fields = [
     {
@@ -12,7 +12,7 @@ export const OutputNode = ({ id, data }) => {
       name: "Type",
       type: "select",
       default: data.outputType || "Text",
-      options: ["Text", "File"], // Options for the output type
+      options: ["Text", "File"],
     },
   ];
 
@@ -24,5 +24,14 @@ export const OutputNode = ({ id, data }) => {
     },
   ];
 
-  return <BaseNode label="Output" fields={fields} handles={handles} id={id} />;
+  return (
+    <BaseNode
+      label="Output"
+      fields={fields}
+      handles={handles}
+      id={id}
+      infoText={"A feild for outputting data from your pipeline."}
+      icon={<OutputIcon sx={{ fontSize: 20, color: "#5b6e91" }} />}
+    />
+  );
 };

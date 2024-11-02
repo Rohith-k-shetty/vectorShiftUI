@@ -1,9 +1,18 @@
 import { Handle } from "reactflow";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useStore } from "../store";
-import { Box, Button, TextareaAutosize } from "@mui/material";
+import {
+  Box,
+  Button,
+  Select,
+  MenuItem,
+  Typography,
+  TextareaAutosize,
+} from "@mui/material";
+import InputIcon from "@mui/icons-material/Input";
+import NodeHeader from "../components/NodeHeader";
 
-export const BaseNode = ({ label, fields, handles, id }) => {
+export const BaseNode = ({ label, fields, handles, id, infoText, icon }) => {
   const [values, setValues] = useState(
     fields.reduce(
       (acc, field) => ({ ...acc, [field.name]: field.default || "" }),
@@ -16,27 +25,27 @@ export const BaseNode = ({ label, fields, handles, id }) => {
 
   const handleChange = (name, value) => {
     setValues({ ...values, [name]: value });
+  };
 
-    // Check for variable names in the input value
-    if (name === "Text") {
-      const regex = /\{\{(.*?)\}\}/g; // Regex to find {{variable}}
-      const matches = [...value.matchAll(regex)];
+  useEffect(() => {
+    if (values.Text) {
+      const regex = /\{\{(.*?)\}\}/g;
+      const matches = [...values.Text.matchAll(regex)];
 
       const newHandles = matches.map((match, index) => ({
-        id: `${name}-handle-${match[1].trim()}`, // Use trimmed variable name for unique id
+        id: `handle-${match[1].trim()}`,
         type: "source",
-        position: "left",
-        style: { top: 20 * index },
+        position: "right",
+        style: { top: 20 + 20 * index },
         name: match[1].trim(),
       }));
 
-      // Combine with existing handles (if any)
       setDynamicHandles((prevHandles) => [
         ...handles.slice(0, 1),
         ...newHandles,
       ]);
     }
-  };
+  }, [values.Text, handles]);
 
   const handleClose = () => {
     removeNode(id);
@@ -47,51 +56,42 @@ export const BaseNode = ({ label, fields, handles, id }) => {
       sx={{
         width: 200,
         padding: 2,
-        border: "1px solid black",
-        resize: "both",
-        overflow: "hidden",
-        // position: "relative",
-        minHeight: 60,
-        maxHeight: 300,
+        border: "3px solid #A3E6F3",
+        borderRadius: "10px",
+        backgroundColor: "#fff",
         display: "flex",
         flexDirection: "column",
+        position: "relative",
       }}
     >
-      <span>{label}</span>
-      <Button
-        onClick={handleClose}
-        sx={{
-          position: "absolute",
-          top: 5,
-          right: 5,
-          cursor: "pointer",
-          background: "transparent",
-          border: "none",
-          color: "red",
-          fontWeight: "bold",
-          fontSize: "16px",
-        }}
-      >
-        &times;
-      </Button>
+      <NodeHeader
+        onClose={handleClose}
+        label={label}
+        infoText={infoText}
+        icon={icon}
+      />
+
       <Box sx={{ flexGrow: 1 }}>
-        {" "}
-        {/* This box will grow and take the remaining space */}
         {fields.map(({ type, name, options }) => (
-          <label key={name}>
-            {name}:
+          <Box key={name} mb={1}>
+            <Typography variant="caption" color="textSecondary">
+              {name}
+            </Typography>
             {type === "select" ? (
-              <select
+              <Select
                 value={values[name]}
                 onChange={(e) => handleChange(name, e.target.value)}
+                variant="standard"
+                fullWidth
+                sx={{ fontSize: "14px" }}
               >
                 {options.map((opt) => (
-                  <option key={opt} value={opt}>
+                  <MenuItem key={opt} value={opt}>
                     {opt}
-                  </option>
+                  </MenuItem>
                 ))}
-              </select>
-            ) : (
+              </Select>
+            ) : name === "Text" ? (
               <TextareaAutosize
                 value={values[name]}
                 onChange={(e) => handleChange(name, e.target.value)}
@@ -103,29 +103,46 @@ export const BaseNode = ({ label, fields, handles, id }) => {
                   resize: "none",
                 }}
               />
+            ) : (
+              <Typography
+                variant="body2"
+                sx={{ fontSize: "14px", color: "#5b6e91" }}
+              >
+                {values[name] || "Text"}
+              </Typography>
             )}
-          </label>
+          </Box>
         ))}
       </Box>
       {dynamicHandles.map((handle) => (
-        <Box>
-          <Handle
-            key={handle.id}
-            type={handle.type}
-            position={handle.position}
-            id={handle.id}
-            style={{
-              border: "2px solid black", // No fill, just outline
-              background: "transparent", // Make background transparent
-              width: "5px", // Set width for a larger size
-              height: "5px", // Set height for a larger size
-              borderRadius: "50%",
+        <Handle
+          key={handle.id}
+          type={handle.type}
+          position={handle.position}
+          id={handle.id}
+          style={{
+            border: "2px solid #5b6e91",
+            background: "#fff",
+            width: "10px",
+            height: "10px",
+            borderRadius: "50%",
+            position: "absolute",
+            // top: handle.style.top,
+            transform: "translateX(50%)",
+          }}
+        >
+          <Typography
+            variant="caption"
+            sx={{
               position: "absolute",
+              left: "20px",
+              top: "-2px",
+              color: "#5b6e91",
             }}
           >
             {handle.name}
-          </Handle>
-        </Box>
+          </Typography>
+        </Handle>
       ))}
     </Box>
   );

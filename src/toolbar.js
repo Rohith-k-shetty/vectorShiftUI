@@ -7,6 +7,11 @@ import {
   FaCalculator,
   FaChartLine,
 } from "react-icons/fa";
+
+import OutputIcon from "@mui/icons-material/Output";
+import InputIcon from "@mui/icons-material/Input";
+import TextSnippetIcon from "@mui/icons-material/TextSnippet";
+
 import { Box, Typography } from "@mui/material";
 
 export const PipelineToolbar = () => {
@@ -22,14 +27,14 @@ export const PipelineToolbar = () => {
           gap: "10px",
         }}
       >
-        <DraggableNode type="customInput" label="Input" icon={<FaDatabase />} />
+        <DraggableNode type="customInput" label="Input" icon={<InputIcon />} />
         <DraggableNode type="llm" label="LLM" icon={<FaChartLine />} />
         <DraggableNode
           type="customOutput"
           label="Output"
-          icon={<FaFileAlt />}
+          icon={<OutputIcon />}
         />
-        <DraggableNode type="text" label="Text" icon={<FaCalculator />} />
+        <DraggableNode type="text" label="Text" icon={<TextSnippetIcon />} />
 
         {/* Additional draggable nodes */}
         <DraggableNode
@@ -45,7 +50,7 @@ export const PipelineToolbar = () => {
         <DraggableNode
           type="LLMResponse"
           label="LLM Response"
-          icon={<FaChartLine />}
+          icon={<OutputIcon />}
         />
         <DraggableNode
           type="fileInput"
