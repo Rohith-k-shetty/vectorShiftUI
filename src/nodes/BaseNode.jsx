@@ -1,15 +1,14 @@
-import { Handle } from "reactflow";
-import { useState, useEffect } from "react";
+import { Handle, Position } from "reactflow";
+import { useState, useEffect, useRef } from "react";
 import { useStore } from "../store";
 import {
   Box,
-  Button,
   Select,
   MenuItem,
   Typography,
   TextareaAutosize,
+  Alert,
 } from "@mui/material";
-import InputIcon from "@mui/icons-material/Input";
 import NodeHeader from "../components/NodeHeader";
 
 export const BaseNode = ({ label, fields, handles, id, infoText, icon }) => {
@@ -22,6 +21,8 @@ export const BaseNode = ({ label, fields, handles, id, infoText, icon }) => {
 
   const removeNode = useStore((state) => state.removeNode);
   const [dynamicHandles, setDynamicHandles] = useState(handles);
+  const nodeRef = useRef(null); // Reference to measure the node's height
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleChange = (name, value) => {
     setValues({ ...values, [name]: value });
@@ -32,11 +33,17 @@ export const BaseNode = ({ label, fields, handles, id, infoText, icon }) => {
       const regex = /\{\{(.*?)\}\}/g;
       const matches = [...values.Text.matchAll(regex)];
 
+      if (matches.length > 6) {
+        setErrorMessage("You can only have up to 6 handles."); // Set error message
+        return;
+      } else {
+        setErrorMessage(""); // Clear error message
+      }
+
       const newHandles = matches.map((match, index) => ({
         id: `handle-${match[1].trim()}`,
-        type: "source",
-        position: "right",
-        style: { top: 20 + 20 * index },
+        type: "target",
+        position: Position.Left,
         name: match[1].trim(),
       }));
 
@@ -51,8 +58,34 @@ export const BaseNode = ({ label, fields, handles, id, infoText, icon }) => {
     removeNode(id);
   };
 
+  // Get the node height dynamically once it renders
+  const nodeHeight = nodeRef.current?.offsetHeight || 200; // Default to 200 if not yet available
+
+  // Separate source and target handles
+  const sourceHandles = dynamicHandles.filter(
+    (handle) => handle.type === "source"
+  );
+  const targetHandles = dynamicHandles.filter(
+    (handle) => handle.type === "target"
+  );
+
+  // Calculate position for source handles (on the right side)
+  const getSourceHandleTopPosition = (index, total) => {
+    return total === 1
+      ? nodeHeight / 2
+      : (nodeHeight / (total + 1)) * (index + 1);
+  };
+
+  // Calculate position for target handles (on the left side)
+  const getTargetHandleTopPosition = (index, total) => {
+    return total === 1
+      ? nodeHeight / 2
+      : (nodeHeight / (total + 1)) * (index + 1);
+  };
+
   return (
     <Box
+      ref={nodeRef}
       sx={{
         width: 200,
         padding: 2,
@@ -114,11 +147,19 @@ export const BaseNode = ({ label, fields, handles, id, infoText, icon }) => {
           </Box>
         ))}
       </Box>
-      {dynamicHandles.map((handle) => (
+
+      {/* Display error message if the handle limit is exceeded */}
+      {errorMessage && (
+        <Alert severity="error" sx={{ mt: 1, mb: 2 }}>
+          {errorMessage}
+        </Alert>
+      )}
+
+      {sourceHandles.map((handle, index) => (
         <Handle
           key={handle.id}
-          type={handle.type}
-          position={handle.position}
+          type="source"
+          position={Position.Right}
           id={handle.id}
           style={{
             border: "2px solid #5b6e91",
@@ -126,17 +167,48 @@ export const BaseNode = ({ label, fields, handles, id, infoText, icon }) => {
             width: "10px",
             height: "10px",
             borderRadius: "50%",
-            position: "absolute",
-            // top: handle.style.top,
-            transform: "translateX(50%)",
+            top: `${getSourceHandleTopPosition(index, sourceHandles.length)}px`,
+            right: "-7.5px",
+            transform: "translateY(-50%)",
           }}
         >
           <Typography
             variant="caption"
             sx={{
               position: "absolute",
-              left: "20px",
-              top: "-2px",
+              left: "14px",
+              top: "-1px",
+              color: "#5b6e91",
+            }}
+          >
+            {handle.name}
+          </Typography>
+        </Handle>
+      ))}
+
+      {targetHandles.map((handle, index) => (
+        <Handle
+          key={handle.id}
+          type="target"
+          position={Position.Left}
+          id={handle.id}
+          style={{
+            border: "2px solid #5b6e91",
+            background: "#fff",
+            width: "10px",
+            height: "10px",
+            borderRadius: "50%",
+            top: `${getTargetHandleTopPosition(index, targetHandles.length)}px`,
+            left: "-7.5px",
+            transform: "translateY(-50%)",
+          }}
+        >
+          <Typography
+            variant="caption"
+            sx={{
+              position: "absolute",
+              right: "14px",
+              top: "-1px",
               color: "#5b6e91",
             }}
           >

@@ -21,6 +21,7 @@ export const OutputNode = ({ id, data }) => {
       id: `${id}-value`,
       type: "target",
       position: Position.Left,
+      name: "Input",
     },
   ];
 
