@@ -1,7 +1,7 @@
 import { PipelineToolbar } from "./toolbar";
 import { PipelineUI } from "./ui";
 import { SubmitButton } from "./submit";
-import ScrollableTextInput from "./components/ScrollableTextInput";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   return (
@@ -9,7 +9,7 @@ function App() {
       <PipelineToolbar />
       <PipelineUI />
       <SubmitButton />
-      {/* <ScrollableTextInput /> */}
+      <ToastContainer />
     </div>
   );
 }

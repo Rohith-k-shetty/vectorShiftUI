@@ -7,7 +7,7 @@ export const SentimentAnalysisNode = ({ id }) => (
       { type: "text", name: "inputText", default: "Enter text to analyze" },
     ]}
     handles={[
-      { id: `${id}-input`, type: "target", position: "Left" },
+      { id: `${id}-input`, type: "target", position: "Left", name: "input" },
       { id: `${id}-output`, type: "source", position: "Right" },
     ]}
     id={id}

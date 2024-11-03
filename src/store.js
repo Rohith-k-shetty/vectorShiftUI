@@ -40,7 +40,6 @@ export const useStore = create((set, get) => ({
   },
 
   onConnect: (connection) => {
-    debugger;
     set({
       edges: addEdge(
         {
