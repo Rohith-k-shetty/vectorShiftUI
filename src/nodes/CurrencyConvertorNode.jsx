@@ -8,13 +8,23 @@ export const CurrencyConverterNode = ({ id }) => (
       {
         type: "select",
         name: "baseCurrency",
-        options: ["USD", "EUR", "JPY", "INR"],
+        options: [
+          { value: "USD", label: "USD" },
+          { value: "EUR", label: "EUR" },
+          { value: "JPY", label: "JPY" },
+          { value: "INR", label: "INR" },
+        ],
         default: "USD",
       },
       {
         type: "select",
         name: "targetCurrency",
-        options: ["USD", "EUR", "JPY", "INR"],
+        options: [
+          { value: "USD", label: "USD" },
+          { value: "EUR", label: "EUR" },
+          { value: "JPY", label: "JPY" },
+          { value: "INR", label: "INR" },
+        ],
         default: "EUR",
       },
     ]}

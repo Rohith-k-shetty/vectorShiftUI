@@ -2,8 +2,8 @@ import { Box, Button } from "@mui/material";
 import { useStore } from "./store";
 import axios from "axios";
 import Swal from "sweetalert2";
-// import { toast, ToastContainer } from "react-toastify"; // Import Toastify
-// import "react-toastify/dist/ReactToastify.css"; // Import Toastify CSS
+import { toast } from "react-toastify"; // Import Toastify
+import "react-toastify/dist/ReactToastify.css"; // Import Toastify CSS
 
 export const SubmitButton = () => {
   const { nodes, edges } = useStore((state) => ({
@@ -13,15 +13,15 @@ export const SubmitButton = () => {
 
   const handleSubmit = async () => {
     // Check for empty nodes or edges
-    // if (nodes.length === 0 || edges.length === 0) {
-    //   toast.error(
-    //     "Please add at least one node and one edge before submitting.",
-    //     {
-    //       position: toast.POSITION.TOP_RIGHT,
-    //     }
-    //   );
-    //   return; // Exit the function if validation fails
-    // }
+    if (nodes.length === 0 || nodes.length === 1 || edges.length === 0) {
+      toast.error(
+        "Please add at least two node and one edge before submitting.",
+        {
+          position: toast.POSITION,
+        }
+      );
+      return; // Exit the function if validation fails
+    }
 
     try {
       // Prepare nodes and edges data in the required format

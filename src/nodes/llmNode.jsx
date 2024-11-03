@@ -2,8 +2,27 @@ import { Position } from "reactflow";
 import { BaseNode } from "./BaseNode";
 import InputIcon from "@mui/icons-material/Input";
 
-export const LLMNode = ({ id }) => {
-  const fields = [];
+export const LLMNode = ({ id, data }) => {
+  const fields = [
+    {
+      name: "Name",
+      type: "label",
+      default: data?.outputName || id.replace("customLabel-", "LLM_"),
+    },
+
+    {
+      type: "text",
+      name: "Prompt",
+      default: data?.inputName || id.replace("customInput-", "input_"),
+    },
+
+    {
+      name: "output",
+      type: "output",
+      default: data.outputType || "text",
+      data: "This is a output feild which is used to display the prompt output after processing",
+    },
+  ];
 
   const handles = [
     {

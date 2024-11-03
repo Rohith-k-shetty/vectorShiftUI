@@ -7,10 +7,11 @@ import TextInputField from "./TextInputFeild";
 import SwitchField from "./SwitchFeild";
 import OutputField from "./OutputFeild";
 import DisplayTextField from "./DisplayTextFeild";
+import NumberInputField from "./NumberInputFeild";
 
-const NodeBody = ({ fields, values, onFieldChange }) => (
+const NodeBody = ({ fields, values, onFieldChange, onTextChange }) => (
   <Box>
-    {fields.map(({ type, name, label, options }) => (
+    {fields.map(({ type, name, label, options, data }) => (
       <Box key={name} mb={1}>
         <Typography variant="caption" color="textSecondary">
           {label || name}
@@ -20,11 +21,12 @@ const NodeBody = ({ fields, values, onFieldChange }) => (
         {type === "text" && (
           <TextField
             value={values[name]}
-            onChange={(value) => onFieldChange(name, value)}
+            onChange={(value) => onTextChange(name, value)}
           />
         )}
         {type === "select" && (
           <SelectField
+            label={label || name}
             value={values[name]}
             options={options}
             onChange={(value) => onFieldChange(name, value)}
@@ -60,7 +62,14 @@ const NodeBody = ({ fields, values, onFieldChange }) => (
           />
         )}
         {type === "output" && (
-          <OutputField label={label || name} output={values[name]} />
+          <OutputField label={label || name} output={data} />
+        )}
+        {type === "number" && (
+          <NumberInputField
+            label={label || name}
+            value={values[name]}
+            onChange={(value) => onFieldChange(name, value)}
+          />
         )}
       </Box>
     ))}

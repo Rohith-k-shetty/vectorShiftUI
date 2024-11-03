@@ -1,8 +1,8 @@
-import { Radio, RadioGroup, FormControlLabel, FormLabel } from "@mui/material";
+import { Radio, RadioGroup, FormControlLabel } from "@mui/material";
 
 const RadioButtonField = ({ label, options, value, onChange }) => (
   <div>
-    <FormLabel component="legend">{label}</FormLabel>
+    {/* <FormLabel component="legend">{label}</FormLabel> */}
     <RadioGroup value={value} onChange={(e) => onChange(e.target.value)} row>
       {options.map((option) => (
         <FormControlLabel
@@ -10,6 +10,7 @@ const RadioButtonField = ({ label, options, value, onChange }) => (
           value={option}
           control={<Radio color="primary" />}
           label={option}
+          sx={{ fontSize: "10px" }}
         />
       ))}
     </RadioGroup>

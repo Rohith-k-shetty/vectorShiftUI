@@ -11,8 +11,11 @@ export const InputNode = ({ id, data }) => {
     },
     {
       type: "select",
-      name: "Type",
-      options: ["Text", "File"],
+      name: "File Types",
+      options: [
+        { value: "Text", label: "Text" },
+        { value: "File", label: "File" },
+      ],
       default: data?.inputType || "Text",
     },
   ];

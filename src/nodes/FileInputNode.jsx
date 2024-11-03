@@ -6,9 +6,9 @@ export const FileInputNode = ({ id }) => (
     fields={[
       { type: "text", name: "fileName", default: "file1.txt" },
       {
-        type: "select",
+        type: "radio",
         name: "fileType",
-        options: ["Text", "Image", "PDF"],
+        options: ["text", "PDF"],
         default: "Text",
       },
     ]}

@@ -5,14 +5,14 @@ export const OutputNode = ({ id, data }) => {
   const fields = [
     {
       name: "Name",
-      type: "text",
+      type: "label",
       default: data?.outputName || id.replace("customOutput-", "output_"), // Default value for the name
     },
     {
-      name: "Type",
-      type: "select",
-      default: data.outputType || "Text",
-      options: ["Text", "File"],
+      name: "output",
+      type: "output",
+      default: data.outputType || "text",
+      data: "This is a output feild which is used to display the output of the node",
     },
   ];
 

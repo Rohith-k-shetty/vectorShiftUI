@@ -4,11 +4,14 @@ export const NumberInputNode = ({ id }) => (
   <BaseNode
     label="Number Input"
     fields={[
-      { type: "number", name: "inputNumber", default: 0 },
+      { type: "number", name: "inputNumber" },
       {
         type: "select",
         name: "dataType",
-        options: ["Integer", "Float"],
+        options: [
+          { value: "Integer", label: "Integer " },
+          { value: "Float", label: "Float" },
+        ],
         default: "Integer",
       },
     ]}

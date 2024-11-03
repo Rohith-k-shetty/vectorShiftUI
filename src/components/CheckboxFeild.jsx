@@ -9,7 +9,7 @@ const CheckboxField = ({ label, checked, onChange }) => (
         color="primary"
       />
     }
-    label={label}
+    // label={label}
   />
 );
 

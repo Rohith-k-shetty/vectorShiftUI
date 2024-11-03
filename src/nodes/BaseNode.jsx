@@ -1,14 +1,7 @@
 import { Handle, Position } from "reactflow";
 import { useState, useEffect, useRef } from "react";
 import { useStore } from "../store";
-import {
-  Box,
-  Select,
-  MenuItem,
-  Typography,
-  TextareaAutosize,
-  Alert,
-} from "@mui/material";
+import { Box, Typography, Alert } from "@mui/material";
 import NodeHeader from "../components/NodeHeader";
 import NodeBody from "../components/NodeBody";
 
@@ -22,16 +15,10 @@ export const BaseNode = ({ label, fields, handles, id, infoText, icon }) => {
 
   const removeNode = useStore((state) => state.removeNode);
   const [dynamicHandles, setDynamicHandles] = useState(handles);
-  const nodeRef = useRef(null); // Reference to measure the node's height
+  // Reference to measure the node's height
+  const nodeRef = useRef(null);
   const [errorMessage, setErrorMessage] = useState("");
-
-  const updateEdgesBasedOnHandles = useStore(
-    (state) => state.updateEdgesBasedOnHandles
-  );
-
   const onConnect = useStore((state) => state.onConnect);
-  const edges = useStore((state) => state.edges);
-  const updateEdges = useStore((state) => state.onEdgesChange);
 
   useEffect(() => {
     if (values.Text) {
@@ -74,7 +61,60 @@ export const BaseNode = ({ label, fields, handles, id, infoText, icon }) => {
   };
 
   const handleChange = (name, value) => {
-    setValues({ ...values, [name]: value });
+    setValues((prevValues) => ({ ...prevValues, [name]: value }));
+  };
+
+  const FeildhandleChange = (name, value) => {
+    // Find the field based on its name
+    const field = fields.find((field) => field.name === name);
+
+    // Ensure the field is found before proceeding
+    if (!field) {
+      console.warn(`Field with name '${name}' not found`);
+      return;
+    }
+
+    // Update the state based on the field type
+    switch (field.type) {
+      case "text":
+      case "select":
+      case "textInput":
+      case "number":
+        // For text-based fields, set the value directly
+        setValues((prevValues) => ({
+          ...prevValues,
+          [name]: value,
+        }));
+        break;
+
+      case "checkbox":
+        // For checkboxes, toggle the current value
+        setValues((prevValues) => ({
+          ...prevValues,
+          [name]: !prevValues[name],
+        }));
+        break;
+
+      case "radio":
+        // For radio buttons, set the value to the selected option
+        setValues((prevValues) => ({
+          ...prevValues,
+          [name]: value,
+        }));
+        break;
+
+      case "switch":
+        // For switches, set the value directly
+        setValues((prevValues) => ({
+          ...prevValues,
+          [name]: value,
+        }));
+        break;
+
+      default:
+        console.warn(`No handler for field type: ${field.type}`);
+        break;
+    }
   };
 
   // Get the node height dynamically once it renders
@@ -161,7 +201,12 @@ export const BaseNode = ({ label, fields, handles, id, infoText, icon }) => {
         ))}
       </Box> */}
 
-      <NodeBody fields={fields} values={values} onFieldChange={handleChange} />
+      <NodeBody
+        fields={fields}
+        values={values}
+        onFieldChange={FeildhandleChange}
+        onTextChange={handleChange}
+      />
 
       {/* Display error message if the handle limit is exceeded */}
       {errorMessage && (

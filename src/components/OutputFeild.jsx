@@ -1,12 +1,7 @@
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 
 const OutputField = ({ label, output }) => (
   <Box sx={{ mt: 1 }}>
-    {label && (
-      <Typography variant="caption" color="textSecondary" sx={{ mb: 1 }}>
-        {label}
-      </Typography>
-    )}
     <Box
       sx={{
         padding: 1,
@@ -14,7 +9,7 @@ const OutputField = ({ label, output }) => (
         borderRadius: "5px",
         maxHeight: "150px",
         overflowY: "auto",
-        fontSize: "14px",
+        fontSize: "16px",
         backgroundColor: "#f9f9f9",
         color: "#333",
         whiteSpace: "pre-wrap",

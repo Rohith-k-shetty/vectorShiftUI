@@ -16,7 +16,7 @@ const CustomEdge = ({
   const removeEdge = useStore((state) => state.removeEdge);
 
   // Get the smooth step path between source and target
-  const [path, labelX, labelY, offsetX, offsetY] = getSmoothStepPath({
+  const [path] = getSmoothStepPath({
     sourceX,
     sourceY,
     sourcePosition,

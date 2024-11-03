@@ -5,6 +5,10 @@ export const SentimentAnalysisNode = ({ id }) => (
     label="Sentiment Analysis"
     fields={[
       { type: "text", name: "inputText", default: "Enter text to analyze" },
+      {
+        type: "switch",
+        name: "Enter Angry Mode",
+      },
     ]}
     handles={[
       { id: `${id}-input`, type: "target", position: "Left", name: "input" },
