@@ -10,6 +10,7 @@ import {
   Alert,
 } from "@mui/material";
 import NodeHeader from "../components/NodeHeader";
+import NodeBody from "../components/NodeBody";
 
 export const BaseNode = ({ label, fields, handles, id, infoText, icon }) => {
   const [values, setValues] = useState(
@@ -116,7 +117,7 @@ export const BaseNode = ({ label, fields, handles, id, infoText, icon }) => {
         icon={icon}
       />
 
-      <Box sx={{ flexGrow: 1 }}>
+      {/* <Box sx={{ flexGrow: 1 }}>
         {fields.map(({ type, name, options }) => (
           <Box key={name} mb={1}>
             <Typography variant="caption" color="textSecondary">
@@ -158,7 +159,9 @@ export const BaseNode = ({ label, fields, handles, id, infoText, icon }) => {
             )}
           </Box>
         ))}
-      </Box>
+      </Box> */}
+
+      <NodeBody fields={fields} values={values} onFieldChange={handleChange} />
 
       {/* Display error message if the handle limit is exceeded */}
       {errorMessage && (
