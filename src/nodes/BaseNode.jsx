@@ -157,50 +157,6 @@ export const BaseNode = ({ label, fields, handles, id, infoText, icon }) => {
         icon={icon}
       />
 
-      {/* <Box sx={{ flexGrow: 1 }}>
-        {fields.map(({ type, name, options }) => (
-          <Box key={name} mb={1}>
-            <Typography variant="caption" color="textSecondary">
-              {name}
-            </Typography>
-            {type === "select" ? (
-              <Select
-                value={values[name]}
-                onChange={(e) => handleChange(name, e.target.value)}
-                variant="standard"
-                fullWidth
-                sx={{ fontSize: "14px" }}
-              >
-                {options.map((opt) => (
-                  <MenuItem key={opt} value={opt}>
-                    {opt}
-                  </MenuItem>
-                ))}
-              </Select>
-            ) : name === "Text" ? (
-              <TextareaAutosize
-                value={values[name]}
-                onChange={(e) => handleChange(name, e.target.value)}
-                minRows={2}
-                maxRows={6}
-                style={{
-                  width: "100%",
-                  maxHeight: "200px",
-                  resize: "none",
-                }}
-              />
-            ) : (
-              <Typography
-                variant="body2"
-                sx={{ fontSize: "14px", color: "#5b6e91" }}
-              >
-                {values[name] || "Text"}
-              </Typography>
-            )}
-          </Box>
-        ))}
-      </Box> */}
-
       <NodeBody
         fields={fields}
         values={values}
