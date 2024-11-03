@@ -40,6 +40,7 @@ export const useStore = create((set, get) => ({
   },
 
   onConnect: (connection) => {
+    debugger;
     set({
       edges: addEdge(
         {
@@ -70,6 +71,28 @@ export const useStore = create((set, get) => ({
 
         return node;
       }),
+    });
+  },
+  updateEdgesBasedOnHandles: (dynamicHandles) => {
+    set((state) => {
+      const newEdges = dynamicHandles.map((handle) => ({
+        id: `${handle.id}-edge`,
+        source: handle.id, // Use the current handle id as the source
+        target: handle.target, // You may want to define how to set this based on your logic
+        type: "custom",
+        animated: true,
+        style: { stroke: "blue" },
+        connectionLineType: "smoothstep",
+      }));
+
+      // Remove existing edges that belong to the same node
+      const filteredEdges = state.edges.filter(
+        (edge) => !dynamicHandles.some((handle) => edge.source === handle.id)
+      );
+
+      return {
+        edges: [...filteredEdges, ...newEdges],
+      };
     });
   },
 }));

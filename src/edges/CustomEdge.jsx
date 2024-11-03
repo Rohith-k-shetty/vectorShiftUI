@@ -1,7 +1,7 @@
+import { BaseEdge, getSmoothStepPath } from "@xyflow/react";
 import { IconButton } from "@mui/material";
 import { AiFillCloseCircle } from "react-icons/ai";
-import { useStore } from "../store";
-import { getSimpleBezierPath } from "reactflow";
+import { useStore } from "../store"; // Adjust this path as needed
 
 const CustomEdge = ({
   id,
@@ -15,8 +15,8 @@ const CustomEdge = ({
 }) => {
   const removeEdge = useStore((state) => state.removeEdge);
 
-  //   Get the smooth path between source and target
-  const edgePath = getSimpleBezierPath({
+  // Get the smooth step path between source and target
+  const [path, labelX, labelY, offsetX, offsetY] = getSmoothStepPath({
     sourceX,
     sourceY,
     sourcePosition,
@@ -31,15 +31,11 @@ const CustomEdge = ({
 
   return (
     <>
-      {/* Edge path as a blue line */}
-      <path
-        id={id}
-        className="react-flow__edge-path"
-        d={edgePath}
-        style={style}
-      />
+      {/* Use BaseEdge to render the smooth step edge */}
+      <BaseEdge id={id} path={path} style={style} />
+
       {/* Circular close icon positioned at the midpoint */}
-      <foreignObject x={midX - 10} y={midY - 10} width={24} height={24}>
+      <foreignObject x={midX - 12} y={midY - 12} width={24} height={24}>
         <IconButton
           onClick={() => removeEdge(id)}
           style={{
