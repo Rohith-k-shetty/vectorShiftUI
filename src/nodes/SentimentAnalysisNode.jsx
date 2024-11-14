@@ -1,5 +1,5 @@
 import { BaseNode } from "./BaseNode";
-
+import { FaDatabase } from "react-icons/fa";
 export const SentimentAnalysisNode = ({ id }) => (
   <BaseNode
     label="Sentiment Analysis"
@@ -15,5 +15,7 @@ export const SentimentAnalysisNode = ({ id }) => (
       { id: `${id}-output`, type: "source", position: "Right" },
     ]}
     id={id}
+    infoText={"Node Designed for the sentiment analysis"}
+    icon={<FaDatabase sx={{ fontSize: 20, color: "#5b6e91" }} />}
   />
 );

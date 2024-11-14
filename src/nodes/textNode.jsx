@@ -1,5 +1,6 @@
 import { BaseNode } from "./BaseNode";
 import { Position } from "reactflow";
+import TextSnippetIcon from "@mui/icons-material/TextSnippet";
 
 export const TextNode = ({ id, data }) => {
   const fields = [
@@ -19,5 +20,16 @@ export const TextNode = ({ id, data }) => {
     },
   ];
 
-  return <BaseNode label="Text" fields={fields} handles={handles} id={id} />;
+  return (
+    <BaseNode
+      label="Text"
+      fields={fields}
+      handles={handles}
+      id={id}
+      infoText={
+        "This is a text node where user Enter the text for the pipeline"
+      }
+      icon={<TextSnippetIcon sx={{ fontSize: 20, color: "#5b6e91" }} />}
+    />
+  );
 };

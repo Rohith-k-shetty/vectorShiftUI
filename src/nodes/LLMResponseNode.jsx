@@ -1,4 +1,5 @@
 import { BaseNode } from "./BaseNode";
+import OutputIcon from "@mui/icons-material/Output";
 
 export const LLMResponseNode = ({ id }) => (
   <BaseNode
@@ -13,5 +14,7 @@ export const LLMResponseNode = ({ id }) => (
       { id: `${id}-output`, type: "source", position: "Right" },
     ]}
     id={id}
+    infoText={"A feild for outputting llm response from your pipeline."}
+    icon={<OutputIcon sx={{ fontSize: 20, color: "#5b6e91" }} />}
   />
 );

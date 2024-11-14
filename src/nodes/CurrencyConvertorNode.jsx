@@ -1,3 +1,4 @@
+import { FaCalculator } from "react-icons/fa";
 import { BaseNode } from "./BaseNode";
 
 export const CurrencyConverterNode = ({ id }) => (
@@ -33,5 +34,7 @@ export const CurrencyConverterNode = ({ id }) => (
       { id: `${id}-output`, type: "source", position: "Right" },
     ]}
     id={id}
+    infoText={"Node Designed for the Currency conversion"}
+    icon={<FaCalculator sx={{ fontSize: 20, color: "#5b6e91" }} />}
   />
 );

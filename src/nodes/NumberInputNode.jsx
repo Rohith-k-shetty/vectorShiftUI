@@ -1,3 +1,4 @@
+import { FaDatabase } from "react-icons/fa";
 import { BaseNode } from "./BaseNode";
 
 export const NumberInputNode = ({ id }) => (
@@ -15,6 +16,8 @@ export const NumberInputNode = ({ id }) => (
         default: "Integer",
       },
     ]}
+    infoText={"Node Designed for Showing the output."}
+    icon={<FaDatabase sx={{ fontSize: 20, color: "#5b6e91" }} />}
     handles={[{ id: `${id}-value`, type: "source", position: "Right" }]}
     id={id}
   />
